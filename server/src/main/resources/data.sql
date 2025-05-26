@@ -1,0 +1,4 @@
+DELETE FROM users;
+
+INSERT INTO users (username, password) VALUES ('admin', '1234');
+INSERT INTO users (username, password) VALUES ('test', '88D4266FD4E6338D13B845FCF289579D209C897823B9217DA3E161936F031589');

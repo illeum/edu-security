@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Memo</title>
+    <link rel="icon" href="../img/sprout.png">
+    <link rel="stylesheet" href="../css/project_page.css">
+    <link rel="stylesheet" href="../css/memo.css">
+</head>
+<body>
+    <h1 class="header">
+        <img src="../img/memo.png" class="img"> Memo
+
+        <a href="project_page.html" class="pagelink">Home</a>
+        <a href="login.html" class="pagelink">Login</a>
+    </h1>
+
+    <div class="memo-container">
+        <div class="memo-input">
+            <input type="text" id="memoText" placeholder="여기에 입력해주세요!">
+            <button type="button" id="addBtn">작성</button>
+            <button type="button" id="clearBtn">전체 삭제</button>
+        </div>
+        <ul id="memoList" class="memo-list">
+            <!-- 작성된 메모들은 여기 추가 -->
+        </ul>
+    </div>
+
+    <script src="../js/memo.js"></script>
+</body>
+</html>
