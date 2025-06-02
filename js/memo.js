@@ -10,9 +10,16 @@ addBtn.addEventListener('click', async () => {
     const text = memoText.value.trim();
     if (!text) return;
 
+    // JWT 토큰 꺼내기
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+        alert('로그인 후 이용해주세요');
+        return;
+    }
+
     const res = await fetch(API_BASE, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+token},
         body: JSON.stringify({ content: text })
     });
 
@@ -28,7 +35,17 @@ addBtn.addEventListener('click', async () => {
 
 // 전체 삭제
 clearBtn.addEventListener('click', async () => {
-    const res = await fetch(API_BASE + "/delete", { method: 'POST' });
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+        alert('로그인 후 이용해주세요.');
+        return;
+    }
+
+    const res = await fetch(API_BASE + "/delete", {
+        method: 'POST',
+        headers:{'Authorization':'Bearer ' + token}
+    });
+
     if (res.ok) {
         memoList.innerHTML = '';
     } else {
@@ -49,9 +66,15 @@ function appendMemo(id, text) {
     delBtn.className = 'memo-del';
     delBtn.addEventListener('click', async () => {
         // 개별 삭제
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+            alert('로그인 후 이용해주세요.');
+            return;
+        }
+
         const res = await fetch(`${API_BASE}/deleteOne`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token},
             body: JSON.stringify({ index: id })
         });
 
@@ -68,7 +91,13 @@ function appendMemo(id, text) {
 
 // 페이지 로드 시 기존 메모 불러오기
 window.addEventListener('DOMContentLoaded', async () => {
-    const res = await fetch(API_BASE);
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+        // 토큰이 없으면 로그인 페이지로 보내거나 빈 화면 처리
+        return;
+    }
+
+    const res = await fetch(API_BASE, {headers: {'Authorization': 'Bearer ' + token}});
     if (!res.ok) {
         alert('메모 리스트 로드 실패')
         return;
