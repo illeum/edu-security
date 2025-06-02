@@ -1,10 +1,14 @@
 package com.security.edu.application.memo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -29,7 +33,7 @@ public class MemoApiController {
     }
 
     @GetMapping
-    public List<MemoDto> getMemos() {
+    public List<MemoDto> getMemos(HttpServletRequest request) {
         List<MemoDto> list = new ArrayList<>();
         for (int i = 0; i < memos.size(); i++) {
             list.add(new MemoDto(i, memos.get(i)));
@@ -38,22 +42,26 @@ public class MemoApiController {
     }
 
     @PostMapping
-    public MemoDto addMemo(@RequestBody Map<String, String> body) {
+    public MemoDto addMemo(HttpServletRequest request, @RequestBody Map<String, String> body) {
+        String username = (String) request.getAttribute("username");
         String raw = body.get("content");
-        memos.add(raw);  // XSS 발생
+        String escaped = HtmlUtils.htmlEscape(raw);
+        memos.add(escaped);  // XSS 방어
         int id = memos.size() - 1;
         return new MemoDto(id, raw);
     }
 
     @PostMapping("/delete")
-    public String deleteMemos() {
+    public String deleteMemos(HttpServletRequest request) {
+        String username = (String) request.getAttribute("username");
         memos.clear();
         return "deleted";
     }
 
     // 개별 삭제
     @PostMapping("/deleteOne")
-    public String deleteOne(@RequestBody Map<String, Integer> body) {
+    public String deleteOne(HttpServletRequest request, @RequestBody Map<String, Integer> body) {
+        String username = (String) request.getAttribute("username");
         Integer idx = body.get("index");
         if (idx != null && idx >= 0 && idx < memos.size()) {
             memos.remove(idx);
