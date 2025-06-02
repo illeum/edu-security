@@ -70,3 +70,23 @@ td {
     text-align: center;
     border: 1px dotted #444;
 }
+
+#greeting {
+  position: absolute;
+  right: 3px;
+  transform: translateY(-100%);
+  font-size: 16px;
+  color: #fff;           /* 인사말 색을 흰색(또는 원하는 색)으로 */
+  white-space: nowrap;   /* 줄바꿈 방지 */
+  /* 필요하다면 배경이나 패딩, border-radius 등을 추가할 수 있음 */
+}
+
+#headerRight > a {
+  font-size: 16px;
+  color: #fff;           /* 파란색 대신 흰색 */
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: transparent;
+  transition: background 0.2s;
+}

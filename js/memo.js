@@ -93,7 +93,7 @@ function appendMemo(id, text) {
 window.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-        // 토큰이 없으면 로그인 페이지로 보내거나 빈 화면 처리
+        // 토큰이 없으면 빈 화면 처리
         return;
     }
 

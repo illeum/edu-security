@@ -19,6 +19,11 @@ async function login_hash(){
 
     const result = await response.json();
     alert(result.message);
+
+    if (response.ok && result.token) {
+        localStorage.setItem('jwtToken', result.token);
+        window.location.href = '/page/project_page.html';
+    }
 }
 
 // await 하려면 async 있어야함
